@@ -7,8 +7,9 @@ import (
 	"github.com/valyentdev/ravel/api"
 )
 
-func (client *Client) CreateFleet(opts api.CreateFleetPayload) (fleet *api.Fleet, err error) {
-	err = client.PerformRequest(
+func (client *Client) CreateFleet(opts api.CreateFleetPayload) (*api.Fleet, error) {
+	fleet := &api.Fleet{}
+	err := client.PerformRequest(
 		"POST",
 		"/v1/fleets",
 		opts,

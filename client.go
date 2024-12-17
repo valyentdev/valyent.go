@@ -83,16 +83,16 @@ func (client *Client) PerformRequest(method, path string, payload any, responseT
 		return fmt.Errorf("failed to read response body: %w", err)
 	}
 
+	// Check for non-2xx HTTP response
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("HTTP request failed with status %s", resp.Status)
+	}
+
 	// If responseTarget is non-nil, unmarshal the JSON response into it
 	if responseTarget != nil && len(respBody) > 0 {
 		if err := json.Unmarshal(respBody, responseTarget); err != nil {
 			return fmt.Errorf("failed to unmarshal JSON response: %w", err)
 		}
-	}
-
-	// Check for non-2xx HTTP response
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return fmt.Errorf("HTTP request failed with status %s", resp.Status)
 	}
 
 	return nil

@@ -7,10 +7,12 @@ import (
 	"github.com/valyentdev/ravel/api"
 )
 
-func (client *Client) CreateMachine(fleetID string, opts api.CreateMachinePayload) (machine *api.Machine, err error) {
-	err = client.PerformRequest("POST", fmt.Sprintf("/v1/fleets/%s/machines", fleetID), opts, machine)
+func (client *Client) CreateMachine(fleetID string, opts api.CreateMachinePayload) (*api.Machine, error) {
+	machine := &api.Machine{}
+
+	err := client.PerformRequest("POST", fmt.Sprintf("/v1/fleets/%s/machines", fleetID), opts, machine)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create machine: %v", err)
 	}
 
 	return machine, nil
