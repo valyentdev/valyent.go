@@ -1,4 +1,4 @@
-package api
+package valyent
 
 import (
 	"bytes"
@@ -65,9 +65,10 @@ func (client *Client) PerformRequest(method, path string, payload any, responseT
 
 	// Set appropriate headers
 	if payload != nil {
-		req.Header.Set("Accept", "application/json")
 		req.Header.Set("Content-Type", "application/json")
 	}
+
+	req.Header.Set("Accept", "application/json")
 
 	// Send the request
 	httpClient := &http.Client{}
