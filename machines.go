@@ -18,6 +18,16 @@ func (client *Client) CreateMachine(fleetID string, opts api.CreateMachinePayloa
 	return machine, nil
 }
 
+func (client *Client) Exec(fleetID, machineID string, opts api.ExecOptions) error {
+	err := client.PerformRequest("POST",
+		fmt.Sprintf("/v1/fleets/%s/machines/%s/exec", fleetID, machineID), opts, nil)
+	if err != nil {
+		return fmt.Errorf("failed to create machine: %v", err)
+	}
+
+	return nil
+}
+
 func (client *Client) GetMachines(fleetID string) ([]api.Machine, error) {
 	machines := []api.Machine{}
 	err := client.PerformRequest("GET", fmt.Sprintf("/v1/fleets/%s/machines", fleetID), nil, &machines)
