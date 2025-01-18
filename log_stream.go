@@ -15,8 +15,9 @@ import (
 type LogStreamOptions struct {
 	FleetID   string
 	MachineID string
-	Follow    bool
 	Namespace string
+
+	CustomPath string // Optional
 }
 
 // LogStream represents an active log streaming session
@@ -63,17 +64,18 @@ func (ls *LogStream) Err() error {
 // StreamLogs initiates a streaming connection to receive logs in real-time
 func (client *Client) StreamLogs(ctx context.Context, opts LogStreamOptions) (*LogStream, error) {
 	// Construct the path with query parameters
-	path := fmt.Sprintf("/v1/fleets/%s/machines/%s/logs", opts.FleetID, opts.MachineID)
-	if opts.Follow {
-		path += "?follow=true"
+	var path string
+
+	if opts.CustomPath == "" {
+		path = fmt.Sprintf("/v1/fleets/%s/machines/%s/logs", opts.FleetID, opts.MachineID)
+	} else {
+		path = opts.CustomPath
 	}
+
+	path += "?follow=true"
+
 	if opts.Namespace != "" {
-		if opts.Follow {
-			path += "&"
-		} else {
-			path += "?"
-		}
-		path += fmt.Sprintf("namespace=%s", opts.Namespace)
+		path += fmt.Sprintf("&namespace=%s", opts.Namespace)
 	}
 
 	// Create the HTTP request

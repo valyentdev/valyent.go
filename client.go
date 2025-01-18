@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	DEFAULT_RAVEL_API_BASE_URL = "https://console.valyent.cloud"
+	DEFAULT_BASE_URL = "https://console.valyent.cloud"
 )
 
 // Client represents a Valyent HTTP API client.
@@ -21,7 +21,7 @@ type Client struct {
 // NewClient returns an instance of a Valyent HTTP API client.
 func NewClient() *Client {
 	return &Client{
-		baseURL: DEFAULT_RAVEL_API_BASE_URL, // We set the default value for the base URL.
+		baseURL: DEFAULT_BASE_URL, // We set the default value for the base URL.
 	}
 }
 
