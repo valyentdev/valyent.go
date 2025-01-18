@@ -33,6 +33,17 @@ func (client *Client) GetFleets() (fleets []api.Fleet, err error) {
 	return
 }
 
+func (client *Client) GetFleet(fleetID string) (fleet api.Fleet, err error) {
+	// Fetch existing fleets matching the user's namespace.
+	fleet = api.Fleet{}
+	err = client.PerformRequest(stdHTTP.MethodGet, "/v1/fleets/"+fleetID, nil, &fleet)
+	if err != nil {
+		return fleet, fmt.Errorf("failed to retrieve fleet: %v", err)
+	}
+
+	return
+}
+
 func (client *Client) DeleteFleet(fleetID string) error {
 	err := client.PerformRequest(stdHTTP.MethodDelete, "/v1/fleets/"+fleetID, nil, nil)
 	if err != nil {
