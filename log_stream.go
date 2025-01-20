@@ -106,8 +106,8 @@ func (client *Client) StreamLogs(ctx context.Context, opts LogStreamOptions) (*L
 		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
-	// Create buffered reader for the response body
-	reader := bufio.NewReaderSize(resp.Body, 64*1024) // 64KB buffer
+	// Directly use the response body without a fixed-size buffer
+	reader := bufio.NewReader(resp.Body) // Default buffer size, no limit enforced
 
 	return &LogStream{
 		reader:   reader,
