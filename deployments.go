@@ -72,6 +72,11 @@ func (client *Client) CreateDeployment(namespace, fleetID string,
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
+		if resp.Body != nil {
+			bodyBytes, _ := io.ReadAll(resp.Body)
+			return nil, fmt.Errorf("HTTP request failed with status code %d with body: %s", resp.StatusCode, bodyBytes)
+		}
+
 		return nil, fmt.Errorf("HTTP request failed with status code %d", resp.StatusCode)
 	}
 
