@@ -22,7 +22,7 @@ func (client *Client) Exec(fleetID, machineID string, opts api.ExecOptions) erro
 	err := client.PerformRequest("POST",
 		fmt.Sprintf("/v1/fleets/%s/machines/%s/exec", fleetID, machineID), opts, nil)
 	if err != nil {
-		return fmt.Errorf("failed to create machine: %v", err)
+		return fmt.Errorf("failed to exec command: %v", err)
 	}
 
 	return nil
