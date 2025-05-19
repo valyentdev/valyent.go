@@ -1,3 +1,5 @@
+_This repo is now archived._
+
 # Valyent Go SDK
 
 ## Installation
